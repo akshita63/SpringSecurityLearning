@@ -7,18 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import com.demoExample.Entity.UsersEntity;
 import com.demoExample.Repos.UserRepositoryy;
 
+
 public class CustomUserDetails  implements UserDetails{
 	
-	
+//	@Autowired
 	private UsersEntity users;
-	public CustomUserDetails(UsersEntity users) {
-		this.users=users;
-	}
 	
+	
+
+	public CustomUserDetails(UsersEntity user) {
+		// TODO Auto-generated constructor stub
+		this.users=user;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,25 +46,25 @@ public class CustomUserDetails  implements UserDetails{
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demoExample.Entity.UsersEntity;
 import com.demoExample.Repos.UserRepositoryy;
+import com.demoExample.Service.UserService;
 
 
 
@@ -26,6 +27,9 @@ public class SpringContoller {
 	
 	@Autowired
 	private  UserRepositoryy userrepo;
+	
+	@Autowired
+	private UserService userservice;
 	
 	//created a record
 	public record Student(String studentName, int id) {
@@ -70,8 +74,10 @@ public class SpringContoller {
 	
 	@PostMapping("/register")
 	public UsersEntity saveusers(@RequestBody UsersEntity users ) {
-		UsersEntity us=userrepo.save(users);
-		return us;
+	//	UsersEntity us=userrepo.save(users);
+		
+		
+		return userservice.register(users);
 		
 	}
 	

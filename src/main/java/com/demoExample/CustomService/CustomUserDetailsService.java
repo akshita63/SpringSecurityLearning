@@ -5,15 +5,19 @@ import java.util.Objects;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.demoExample.Entity.UsersEntity;
 import com.demoExample.Exceptions.UserNotFound;
 import com.demoExample.Repos.UserRepositoryy;
 
+
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 	
 	
 	private final UserRepositoryy userrepo ;
+	
 	public  CustomUserDetailsService(UserRepositoryy userrepo) {
 		this.userrepo=userrepo;
 	}
@@ -31,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			//throw some exception
 			
 	//	}
-		if(user!=null) {
+		if(user==null) {
 			//throw some exception here
 			System.out.println("user not found");
 			//throw new exception
@@ -39,6 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		
 		else {
+			//add the data of user like my username and password in my customuserdetails class
 			return new  CustomUserDetails (user);
 		}
 		

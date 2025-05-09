@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -55,40 +56,46 @@ public class SecurityConfig {
 	//I need object of UserDetailsService
 	//configuration for my userdetails service
 //	@Bean
-	public UserDetailsService userDetails() {
-		//Userdetails is an interface which implements UserDetailsService and User is the class which implements my UserDetails
-		
-		//this is a limitation because i am just using the same objects which I am giving in memory not from the db
-		UserDetails akshita=User.withUsername("akshita")
-				//plain text password
-				//not suggested to use in production
-				.password("{noop}password")
-				.roles("user")
-				.build();
-		
-		
-		UserDetails sai=User.withUsername("SAI")
-			.password("{noop}SAI")
-				.roles("user")
-				.build();
+//	public UserDetailsService userDetails() {
+//		//Userdetails is an interface which implements UserDetailsService and User is the class which implements my UserDetails
+//		
+//		//this is a limitation because i am just using the same objects which I am giving in memory not from the db
+//		UserDetails akshita=User.withUsername("akshita")
+//				//plain text password
+//				//not suggested to use in production
+//				.password("{noop}password")
+//				.roles("user")
+//				.build();
+//		
+//		
+//		UserDetails sai=User.withUsername("SAI")
+//			.password("{noop}SAI")
+//				.roles("user")
+//				.build();
 		
 		
 		//return the object of UserDetailsService
 		//we should give the name of object which implements my 
-		return new InMemoryUserDetailsManager( akshita, sai);
+	//	return new InMemoryUserDetailsManager( akshita, sai);
 		//return new JdbcDaoImpl();	
 		
-	}
+	//}
+	
+	  @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 	
 	//I need to configure my authenticationprovider bean
-	
+	//I created my customuserdetails and also authenticationprovider which authenticates against my db
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		
 		DaoAuthenticationProvider dao=new  DaoAuthenticationProvider();
 		dao.setUserDetailsService(userdetails);
-		dao.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-		
+	//	dao.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+		//new BCryptPasswordEncoder(
+		dao.setPasswordEncoder(new BCryptPasswordEncoder(11) );
 		return dao;
 		
 		
